@@ -1,4 +1,5 @@
 use rayon::prelude::*;
+use std::cmp::Ordering;
 
 fn main() {
     println!("{}", part1()); // 460
@@ -51,11 +52,10 @@ fn valid_password(pass: i32) -> bool {
     let mut prev = iter.next().unwrap().to_digit(10_u32).unwrap();
     for c in iter {
         let digit = c.to_digit(10_u32).unwrap();
-        if digit < prev {
-            return false;
-        }
-        if digit == prev {
-            repeat = true;
+        match digit.cmp(&prev) {
+            Ordering::Less => return false,
+            Ordering::Equal => repeat = true,
+            _ => (),
         }
         prev = digit;
     }
@@ -73,16 +73,15 @@ fn valid_password2(pass: i32) -> bool {
     let mut count = 1;
     for c in iter {
         let digit = c.to_digit(10_u32).unwrap();
-        if digit < prev {
-            return false;
-        }
-        if digit == prev {
-            count += 1;
-        } else {
-            if count == 2 {
-                repeat = true;
+        match digit.cmp(&prev) {
+            Ordering::Less => return false,
+            Ordering::Equal => count += 1,
+            Ordering::Greater => {
+                if count == 2 {
+                    repeat = true;
+                }
+                count = 1;
             }
-            count = 1;
         }
         prev = digit;
     }
