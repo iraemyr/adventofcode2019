@@ -1,3 +1,5 @@
+use rayon::prelude::*;
+
 fn main() {
     println!("{}", part1()); // 460
     println!("{}", part1_stream()); // 460
@@ -16,11 +18,17 @@ fn part1() -> i32 {
 }
 
 fn part1_stream() -> i32 {
-    (382345..=843167).filter(|a| valid_password(*a)).count() as i32
+    (382345..=843167)
+        .into_par_iter()
+        .filter(|a| valid_password(*a))
+        .count() as i32
 }
 
 fn part2_stream() -> i32 {
-    (382345..=843167).filter(|a| valid_password2(*a)).count() as i32
+    (382345..=843167)
+        .into_par_iter()
+        .filter(|a| valid_password2(*a))
+        .count() as i32
 }
 
 fn part2() -> i32 {
