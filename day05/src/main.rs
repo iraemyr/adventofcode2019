@@ -8,7 +8,7 @@ fn main() {
         .map(|a| a.trim().parse::<i32>().unwrap())
         .collect();
     println!("{}", part1(v.clone())); // 5182797
-    println!("{}", part2(v.clone())); // 12077198
+    println!("{}", part2(v)); // 12077198
 }
 
 fn part1(program: Vec<i32>) -> i32 {

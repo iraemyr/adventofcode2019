@@ -23,7 +23,7 @@ impl Intcode {
             let padded: String = format!("{instr:05}");
             let op = padded[3..].to_owned().parse::<i32>().unwrap();
             let mut modes = padded[..3].to_owned();
-            //let op = self.program[self.pc];
+
             match op {
                 1 | 2 | 7 | 8 => self.three_args(op, &mut modes),
                 3 => {
@@ -41,7 +41,7 @@ impl Intcode {
         }
     }
 
-    fn three_args(&mut self, op: i32, modes: &mut String) -> () {
+    fn three_args(&mut self, op: i32, modes: &mut String) {
         self.pc += 1;
         let mut mode = modes.pop().unwrap();
         let arg1 = self.get_value(self.program[self.pc], mode);
@@ -60,7 +60,7 @@ impl Intcode {
         }
     }
 
-    fn two_args(&mut self, op: i32, modes: &mut String) -> () {
+    fn two_args(&mut self, op: i32, modes: &mut String) {
         self.pc += 1;
         let mut mode = modes.pop().unwrap();
         let arg1 = self.get_value(self.program[self.pc], mode);
@@ -75,7 +75,7 @@ impl Intcode {
         }
     }
 
-    fn one_arg(&mut self, op: i32, mode: char) -> () {
+    fn one_arg(&mut self, op: i32, mode: char) {
         self.pc += 1;
         let arg = self.program[self.pc];
         self.pc += 1;
@@ -97,15 +97,15 @@ impl Intcode {
         }
     }
 
-    fn add(&mut self, arg1: i32, arg2: i32, dest: i32) -> () {
+    fn add(&mut self, arg1: i32, arg2: i32, dest: i32) {
         self.write(arg1 + arg2, dest);
     }
 
-    fn mul(&mut self, arg1: i32, arg2: i32, dest: i32) -> () {
+    fn mul(&mut self, arg1: i32, arg2: i32, dest: i32) {
         self.write(arg1 * arg2, dest);
     }
 
-    fn less_than(&mut self, arg1: i32, arg2: i32, dest: i32) -> () {
+    fn less_than(&mut self, arg1: i32, arg2: i32, dest: i32) {
         if arg1 < arg2 {
             self.write(1, dest);
         } else {
@@ -113,7 +113,7 @@ impl Intcode {
         }
     }
 
-    fn equals(&mut self, arg1: i32, arg2: i32, dest: i32) -> () {
+    fn equals(&mut self, arg1: i32, arg2: i32, dest: i32) {
         if arg1 == arg2 {
             self.write(1, dest);
         } else {
@@ -121,39 +121,39 @@ impl Intcode {
         }
     }
 
-    fn jump_true(&mut self, arg1: i32, arg2: i32) -> () {
+    fn jump_true(&mut self, arg1: i32, arg2: i32) {
         if arg1 != 0 {
             self.pc = arg2 as usize;
         }
     }
 
-    fn jump_false(&mut self, arg1: i32, arg2: i32) -> () {
+    fn jump_false(&mut self, arg1: i32, arg2: i32) {
         if arg1 == 0 {
             self.pc = arg2 as usize;
         }
     }
 
-    fn get_input(&mut self, dest: i32) -> () {
+    fn get_input(&mut self, dest: i32) {
         self.write(self.input, dest);
         self.input_ready = false;
     }
 
-    fn set_output(&mut self, arg: i32) -> () {
+    fn set_output(&mut self, arg: i32) {
         self.output = arg;
     }
 
-    pub fn debug(&self) -> () {
+    pub fn debug(&self) {
         for i in &self.program {
             println!("{}", i);
         }
     }
 
-    pub fn restore(&mut self) -> () {
+    pub fn restore(&mut self) {
         self.program[1] = 12;
         self.program[2] = 2;
     }
 
-    pub fn write(&mut self, val: i32, pos: i32) -> () {
+    pub fn write(&mut self, val: i32, pos: i32) {
         self.program[pos as usize] = val;
     }
 
@@ -161,7 +161,7 @@ impl Intcode {
         self.program[pos as usize]
     }
 
-    pub fn set_input(&mut self, data: i32) -> () {
+    pub fn set_input(&mut self, data: i32) {
         self.input = data;
         self.input_ready = true;
     }

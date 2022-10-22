@@ -1,7 +1,7 @@
 fn main() {
-    //println!("{}", part1()); // 460
+    println!("{}", part1()); // 460
     println!("{}", part1_stream()); // 460
-                                    //println!("{}", part2()); // 290
+    println!("{}", part2()); // 290
     println!("{}", part2_stream()); // 290
 }
 
@@ -40,9 +40,9 @@ fn valid_password(pass: i32) -> bool {
         return false;
     }
     let mut iter = s.chars();
-    let mut prev = iter.next().unwrap().to_digit(10 as u32).unwrap();
+    let mut prev = iter.next().unwrap().to_digit(10_u32).unwrap();
     for c in iter {
-        let digit = c.to_digit(10 as u32).unwrap();
+        let digit = c.to_digit(10_u32).unwrap();
         if digit < prev {
             return false;
         }
@@ -61,10 +61,10 @@ fn valid_password2(pass: i32) -> bool {
         return false;
     }
     let mut iter = s.chars();
-    let mut prev = iter.next().unwrap().to_digit(10 as u32).unwrap();
+    let mut prev = iter.next().unwrap().to_digit(10_u32).unwrap();
     let mut count = 1;
     for c in iter {
-        let digit = c.to_digit(10 as u32).unwrap();
+        let digit = c.to_digit(10_u32).unwrap();
         if digit < prev {
             return false;
         }

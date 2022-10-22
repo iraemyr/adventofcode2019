@@ -9,7 +9,7 @@ fn main() {
         .collect();
 
     println!("{}", part1(v.clone())); // 3101878
-    println!("{}", part2(v.clone())); // 8444
+    println!("{}", part2(v)); // 8444
 }
 
 fn part1(program: Vec<i32>) -> i32 {
