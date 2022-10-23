@@ -17,8 +17,8 @@ impl Orbits<'_> {
         self.orb.get("SAN").unwrap()[0]
     }
 
-    pub fn successors(&self, k: &str) -> Vec<&str> {
-        self.orb.get(k).unwrap().clone()
+    pub fn successors(&self, k: &str) -> impl IntoIterator<Item = &str> {
+        self.orb.get(k).unwrap().iter().copied()
     }
 }
 fn main() {
