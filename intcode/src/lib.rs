@@ -4,6 +4,7 @@ pub struct Intcode {
     input: i32,
     input_ready: bool,
     output: i32,
+    halted: bool,
 }
 
 impl Intcode {
@@ -14,6 +15,7 @@ impl Intcode {
             input: 0,
             input_ready: false,
             output: 0,
+            halted: false,
         }
     }
 
@@ -35,7 +37,10 @@ impl Intcode {
                 }
                 4 => self.one_arg(4, modes.pop().unwrap()),
                 5 | 6 => self.two_args(op, &mut modes),
-                99 => return true,
+                99 => {
+                    self.halted = true;
+                    return true;
+                }
                 _ => println!(r#"Invalid opcode"#),
             }
         }
@@ -169,6 +174,10 @@ impl Intcode {
     pub fn get_output(&mut self) -> i32 {
         self.output
     }
+
+    pub fn is_halted(&self) -> bool {
+        self.halted
+    }
 }
 
 #[cfg(test)]
@@ -180,7 +189,7 @@ mod tests {
         let v = vec![1, 0, 0, 0, 99];
         let mut comp = Computer::intcode_instance(v);
         comp.run();
-        assert_eq!(2, comp.read(0));
+        assert_eq!(comp.read(0), 2);
     }
 
     #[test]
@@ -188,7 +197,7 @@ mod tests {
         let v = vec![2, 3, 0, 3, 99];
         let mut comp = Computer::intcode_instance(v);
         comp.run();
-        assert_eq!(6, comp.read(3));
+        assert_eq!(comp.read(3), 6);
     }
 
     #[test]
@@ -196,7 +205,7 @@ mod tests {
         let v = vec![2, 4, 4, 5, 99, 0];
         let mut comp = Computer::intcode_instance(v);
         comp.run();
-        assert_eq!(9801, comp.read(5));
+        assert_eq!(comp.read(5), 9801);
     }
 
     #[test]
@@ -213,7 +222,7 @@ mod tests {
         let mut comp = Computer::intcode_instance(v);
         comp.set_input(44);
         comp.run();
-        assert_eq!(44, comp.get_output());
+        assert_eq!(comp.get_output(), 44);
     }
 
     #[test]

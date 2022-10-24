@@ -44,48 +44,48 @@ mod tests {
 
     #[test]
     fn calcf1() {
-        assert_eq!(2, calc_fuel(12));
+        assert_eq!(calc_fuel(12), 2);
     }
 
     #[test]
     fn calcf2() {
-        assert_eq!(2, calc_fuel(14));
+        assert_eq!(calc_fuel(14), 2);
     }
 
     #[test]
     fn calcf3() {
-        assert_eq!(654, calc_fuel(1969));
+        assert_eq!(calc_fuel(1969), 654);
     }
 
     #[test]
     fn calcf4() {
-        assert_eq!(33583, calc_fuel(100756));
+        assert_eq!(calc_fuel(100756), 33583);
     }
 
     #[test]
     fn calc2f1() {
-        assert_eq!(2, calc_fuel2(14));
+        assert_eq!(calc_fuel2(14), 2);
     }
 
     #[test]
     fn calc2f2() {
-        assert_eq!(966, calc_fuel2(1969));
+        assert_eq!(calc_fuel2(1969), 966);
     }
 
     #[test]
     fn calc2f3() {
-        assert_eq!(50346, calc_fuel2(100756));
+        assert_eq!(calc_fuel2(100756), 50346);
     }
 
     #[test]
     fn test_part1() {
         let contents = fs::read_to_string("input.txt").expect("File not found");
-        assert_eq!(3295539, part_1_and_2(contents).0);
+        assert_eq!(part_1_and_2(contents).0, 3295539);
     }
 
     #[test]
     fn test_part2() {
         let contents = fs::read_to_string("input.txt").expect("File not found");
-        assert_eq!(4940441, part_1_and_2(contents).1);
+        assert_eq!(part_1_and_2(contents).1, 4940441);
     }
 }

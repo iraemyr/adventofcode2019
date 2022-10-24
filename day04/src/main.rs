@@ -129,21 +129,21 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        assert_eq!(460, part1());
+        assert_eq!(part1(), 460);
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(290, part2());
+        assert_eq!(part2(), 290);
     }
 
     #[test]
     fn test_part1_stream() {
-        assert_eq!(460, part1_stream());
+        assert_eq!(part1_stream(), 460);
     }
 
     #[test]
     fn test_part2_stream() {
-        assert_eq!(290, part2_stream());
+        assert_eq!(part2_stream(), 290);
     }
 }

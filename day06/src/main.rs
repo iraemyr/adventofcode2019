@@ -1,5 +1,3 @@
-extern crate pathfinding;
-
 use pathfinding::prelude::bfs;
 use std::collections::HashMap;
 use std::fs;
@@ -87,24 +85,24 @@ mod tests {
     #[test]
     fn test_part1() {
         let contents = fs::read_to_string("input.txt").expect("File not found");
-        assert_eq!(261306, part1(contents));
+        assert_eq!(part1(contents), 261306);
     }
 
     #[test]
     fn test_part1_simple() {
         let contents = fs::read_to_string("test.txt").expect("File not found");
-        assert_eq!(42, part1(contents));
+        assert_eq!(part1(contents), 42);
     }
 
     #[test]
     fn test_part2() {
         let contents = fs::read_to_string("input.txt").expect("File not found");
-        assert_eq!(382, part2(contents));
+        assert_eq!(part2(contents), 382);
     }
 
     #[test]
     fn test_part2_simple() {
         let contents = fs::read_to_string("test2.txt").expect("File not found");
-        assert_eq!(4, part2(contents));
+        assert_eq!(part2(contents), 4);
     }
 }

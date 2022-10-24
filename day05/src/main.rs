@@ -40,7 +40,7 @@ mod tests {
             .split(',')
             .map(|a| a.trim().parse::<i32>().unwrap())
             .collect();
-        assert_eq!(5182797, part1(v));
+        assert_eq!(part1(v), 5182797);
     }
 
     #[test]
@@ -50,6 +50,6 @@ mod tests {
             .split(',')
             .map(|a| a.trim().parse::<i32>().unwrap())
             .collect();
-        assert_eq!(12077198, part2(v));
+        assert_eq!(part2(v), 12077198);
     }
 }

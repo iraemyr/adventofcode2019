@@ -80,12 +80,12 @@ mod tests {
     #[test]
     fn test_part1() {
         let contents = fs::read_to_string("input.txt").expect("File not found");
-        assert_eq!(352, part1_and_2(contents).0);
+        assert_eq!(part1_and_2(contents).0, 352);
     }
 
     #[test]
     fn test_part2() {
         let contents = fs::read_to_string("input.txt").expect("File not found");
-        assert_eq!(43848, part1_and_2(contents).1);
+        assert_eq!(part1_and_2(contents).1, 43848);
     }
 }
