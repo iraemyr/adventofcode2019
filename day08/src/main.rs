@@ -5,23 +5,14 @@ fn main() {
     let contents = fs::read_to_string("input.txt").expect("File not found");
     let images = parse_images(contents, 6, 25);
     println!("{}", part1(&images)); //2318
-    part2(images);
+    part2(images); // AHFCB
 }
 
 fn parse_images(data: String, height: usize, width: usize) -> Vec<Array2D<u8>> {
-    let mut images: Vec<Array2D<u8>> = Vec::new();
-    let mut digits = data.bytes().peekable();
-
-    while digits.peek().is_some() {
-        let mut image = Array2D::filled_with(0, height, width);
-        for row in 0..image.num_rows() {
-            for col in 0..image.num_columns() {
-                image[(row, col)] = digits.next().unwrap();
-            }
-        }
-        images.push(image);
-    }
-    images
+    let data = data.into_bytes();
+    data.chunks(height * width)
+        .map(|img| Array2D::from_iter_row_major(img.iter().copied(), height, width))
+        .collect()
 }
 
 fn part1(images: &Vec<Array2D<u8>>) -> i32 {
@@ -67,14 +58,7 @@ fn part2(images: Vec<Array2D<u8>>) {
 }
 
 fn filled(image: &Array2D<u8>) -> bool {
-    for row in 0..image.num_rows() {
-        for col in 0..image.num_columns() {
-            if image[(row, col)] == b'2' {
-                return false;
-            }
-        }
-    }
-    true
+    image.elements_row_major_iter().all(|&x| x != b'2')
 }
 
 fn print_image(image: &Array2D<u8>) {
