@@ -61,7 +61,7 @@ impl Moon {
     }
 
     pub fn load_moons() -> Vec<Moon> {
-        let mut moons: Vec<Moon> = Vec::new();
+        let mut moons: Vec<Moon> = Vec::with_capacity(4);
         let mut moon = Moon::new(13, -13, -2);
         moons.push(moon);
         moon = Moon::new(16, 2, -15);
@@ -89,6 +89,7 @@ fn part1(moons: &mut Vec<Moon>, steps: i32) -> i32 {
     }
     total_energy
 }
+
 fn part2(moons: &mut [Moon]) -> u64 {
     let mut x_period = 0_u64;
     let mut y_period = 0_u64;
@@ -133,7 +134,7 @@ mod tests {
     use super::*;
 
     fn load_test_moons() -> Vec<Moon> {
-        let mut moons: Vec<Moon> = Vec::new();
+        let mut moons: Vec<Moon> = Vec::with_capacity(4);
         let mut moon = Moon::new(-1, 0, 2);
         moons.push(moon);
         moon = Moon::new(2, -10, -7);
@@ -146,7 +147,7 @@ mod tests {
     }
 
     fn load_test_moons2() -> Vec<Moon> {
-        let mut moons: Vec<Moon> = Vec::new();
+        let mut moons: Vec<Moon> = Vec::with_capacity(4);
         let mut moon = Moon::new(-8, -10, 0);
         moons.push(moon);
         moon = Moon::new(5, 5, 10);
