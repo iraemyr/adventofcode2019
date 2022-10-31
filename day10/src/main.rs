@@ -45,7 +45,7 @@ fn part2(mut input: String, width: usize, base: (usize, usize)) -> i32 {
                 let diff = (col as i32 - base.0 as i32, row as i32 - base.1 as i32);
                 let li = angles
                     .entry((calc_angle(diff.0, diff.1) * 100.0) as i32)
-                    .or_insert(Vec::new());
+                    .or_default();
                 li.push((col as i32, row as i32));
             }
         }
@@ -59,14 +59,10 @@ fn part2(mut input: String, width: usize, base: (usize, usize)) -> i32 {
 fn calc_angle(x: i32, y: i32) -> f32 {
     let f = y as f32;
     let angle = f.atan2(x as f32).to_degrees();
-    if x == 0 || y == 0 {
-        return angle + 90.0;
+    if x < 0 && y < 0 {
+        return angle + 450.0;
     }
-    if x > 0 || y > 0 {
-        angle + 90.0
-    } else {
-        angle + 450.0
-    }
+    angle + 90.0
 }
 
 fn can_see(pos: (usize, usize), map: &Array2D<bool>, set: &mut HashSet<(i32, i32)>) -> i32 {
