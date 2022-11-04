@@ -77,11 +77,7 @@ impl Robot {
     }
 
     fn get_color(&self) -> i32 {
-        if self.hull.contains_key(&self.pos) && *self.hull.get(&self.pos).unwrap() {
-            1
-        } else {
-            0
-        }
+        i32::from(self.hull.contains_key(&self.pos) && *self.hull.get(&self.pos).unwrap())
     }
 
     fn paint(&mut self, color: i32) {
@@ -115,6 +111,7 @@ impl Robot {
         }
     }
 }
+
 fn main() {
     let contents = fs::read_to_string("input.txt").expect("File not found");
     println!("{}", part1(contents.clone())); // 1932

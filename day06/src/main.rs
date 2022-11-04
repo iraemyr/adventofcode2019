@@ -51,7 +51,7 @@ fn part2(data: String) -> i32 {
 
     let result = bfs(
         &orbits.start(),
-        |p| orbits.successors(*p),
+        |p| orbits.successors(p),
         |p| *p == orbits.end(),
     )
     .unwrap()
