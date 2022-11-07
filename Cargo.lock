@@ -193,6 +193,9 @@ dependencies = [
 [[package]]
 name = "day18"
 version = "0.1.0"
+dependencies = [
+ "pathfinding",
+]
 
 [[package]]
 name = "either"
