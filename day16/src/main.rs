@@ -33,8 +33,7 @@ fn part1(mut v: Vec<i32>) -> i32 {
 fn part2(v: Vec<i32>) -> i32 {
     let offset = v[0..7].iter().fold(0, |accum, i| accum * 10 + *i) as usize;
     let v_big = v.repeat(10_000);
-    let mut trunc = vec![0; v_big.len() - offset];
-    trunc.copy_from_slice(&v_big[offset..]);
+    let mut trunc = v_big[offset..].to_vec();
     for _ in 0..100 {
         let mut acc = 0;
         for index in (0..trunc.len()).rev() {

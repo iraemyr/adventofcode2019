@@ -12,17 +12,13 @@ fn part1(program: String) -> usize {
     comp.run();
     let output = comp.get_outputs();
     let o: String = output.iter().map(|i| (*i as u8) as char).collect();
-    let mut v: Vec<Vec<char>> = Vec::new();
-    for line in o.lines() {
-        let chars: Vec<char> = line.chars().collect();
-        v.push(chars);
-    }
+    let v: Vec<Vec<char>> = o.lines().map(|s| s.chars().collect()).collect();
 
     let mut alignment = 0;
     for y in 1..(v.len() - 2) {
-        let vec = v.get(y).unwrap();
+        let vec = &v[y];
         for x in 1..(vec.len() - 1) {
-            if is_intersection(&mut v, y, x) {
+            if is_intersection(&v, y, x) {
                 alignment += x * y;
             }
         }
@@ -35,27 +31,27 @@ fn part2(program: String) -> i64 {
     let mut comp = Intcode::intcode_instance(program);
     comp.write(2, 0);
     comp.run();
-    for b in "B,C,C,A,A,B,B,C,C,A\n".as_bytes() {
+    for b in b"B,C,C,A,A,B,B,C,C,A\n" {
         // Main program
         comp.set_input(*b as i64);
         comp.run();
     }
-    for b in "R,12,R,4,L,6,L,8,L,8\n".as_bytes() {
+    for b in b"R,12,R,4,L,6,L,8,L,8\n" {
         // Program A
         comp.set_input(*b as i64);
         comp.run();
     }
-    for b in "L,12,R,4,R,4\n".as_bytes() {
+    for b in b"L,12,R,4,R,4\n" {
         // Program B
         comp.set_input(*b as i64);
         comp.run();
     }
-    for b in "R,12,R,4,L,12\n".as_bytes() {
+    for b in b"R,12,R,4,L,12\n" {
         // Program C
         comp.set_input(*b as i64);
         comp.run();
     }
-    for b in "n\n".as_bytes() {
+    for b in b"n\n" {
         // No video feed
         comp.set_input(*b as i64);
         comp.run();
@@ -63,20 +59,17 @@ fn part2(program: String) -> i64 {
     comp.get_last_output()
 }
 
-fn is_intersection(map: &mut [Vec<char>], row: usize, col: usize) -> bool {
+fn is_intersection(map: &[Vec<char>], row: usize, col: usize) -> bool {
     let c = map[row][col];
     if c != '#' {
         return false;
     }
-    let neighbors = vec![(0, 1), (0, -1), (1, 0), (-1, 0)];
-    for neighbor in neighbors {
-        let r = row as i32 + neighbor.0;
-        let c = col as i32 + neighbor.1;
-        if map[r as usize][c as usize] != '#' {
-            return false;
-        }
-    }
-    true
+    let neighbors = [(0, 1), (0, -1), (1, 0), (-1, 0)];
+    neighbors.iter().all(|n| {
+        let r = row as i32 + n.0;
+        let c = col as i32 + n.1;
+        map[r as usize][c as usize] == '#'
+    })
 }
 
 fn print_map(map: &[Vec<char>]) {
