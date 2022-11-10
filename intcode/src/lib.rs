@@ -10,6 +10,7 @@ pub struct Intcode {
     output: VecDeque<i64>,
     halted: bool,
     debug: bool,
+    orig_program: String,
 }
 
 fn parse_program(p: String) -> IntMap<usize, i64> {
@@ -26,12 +27,13 @@ impl Intcode {
         Self {
             pc: 0,
             rb: 0,
-            program: parse_program(p),
+            program: parse_program(p.clone()),
             input: 0,
             input_ready: false,
             output: VecDeque::new(),
             halted: false,
             debug: false,
+            orig_program: p,
         }
     }
 
@@ -288,6 +290,13 @@ impl Intcode {
 
     pub fn set_debug(&mut self, b: bool) {
         self.debug = b;
+    }
+
+    pub fn reset(&mut self) {
+        self.pc = 0;
+        self.rb = 0;
+        self.halted = false;
+        self.program = parse_program(self.orig_program.clone());
     }
 }
 
