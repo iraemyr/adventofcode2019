@@ -11,6 +11,7 @@ pub struct Intcode {
     halted: bool,
     debug: bool,
     orig_program: String,
+    awaiting_input: bool,
 }
 
 fn parse_program(p: String) -> IntMap<usize, i64> {
@@ -34,6 +35,7 @@ impl Intcode {
             halted: false,
             debug: false,
             orig_program: p,
+            awaiting_input: false,
         }
     }
 
@@ -67,6 +69,36 @@ impl Intcode {
                 }
                 _ => println!(r#"Invalid opcode"#),
             }
+        }
+    }
+
+    pub fn step(&mut self) {
+        let instr = self.program[&self.pc];
+        if self.debug {
+            println!("pc: {}, instr: {}", self.pc, instr);
+        }
+        let padded: String = format!("{instr:05}");
+        let op = padded[3..].to_owned().parse::<i32>().unwrap();
+        let mut modes = padded[..3].to_owned();
+
+        match op {
+            1 | 2 | 7 | 8 => self.three_args(op, &mut modes),
+            3 => {
+                if self.input_ready {
+                    self.one_arg(op, modes.pop().unwrap());
+                } else {
+                    self.awaiting_input = true;
+                }
+            }
+            4 | 9 => self.one_arg(op, modes.pop().unwrap()),
+            5 | 6 => self.two_args(op, &mut modes),
+            99 => {
+                if self.debug {
+                    println!("Halt");
+                }
+                self.halted = true;
+            }
+            _ => println!(r#"Invalid opcode"#),
         }
     }
 
@@ -265,6 +297,7 @@ impl Intcode {
     pub fn set_input(&mut self, data: i64) {
         self.input = data;
         self.input_ready = true;
+        self.awaiting_input = false;
     }
 
     pub fn get_output(&mut self) -> i64 {
@@ -282,6 +315,14 @@ impl Intcode {
         }
         self.output.clear();
         v
+    }
+
+    pub fn packet_ready(&self) -> bool {
+        self.output.len() == 3
+    }
+
+    pub fn awaiting_input(&self) -> bool {
+        self.awaiting_input
     }
 
     pub fn is_halted(&self) -> bool {
